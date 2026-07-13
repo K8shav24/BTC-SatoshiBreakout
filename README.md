@@ -62,7 +62,6 @@ Capital vs. BTC/USD close price:
 Trade positioning over the BTC/USD price series (green = long, red = short):
 <img width="847" height="373" alt="image" src="https://github.com/user-attachments/assets/6ea87419-278d-4337-9120-d219344716bd" />
 
-Show Image
 
 Project Structure
 
@@ -92,9 +91,8 @@ plotly
 Usage
 
 
-Place daily OHLC data for BTC/USD as btc_18_22_1d.csv in the project root, with at minimum datetime, open, high, low, close, volume columns.
+Place daily OHLC data for BTC/USD as BTC_2019_2023_1d.csv in the project root, with at minimum datetime, open, high, low, close, volume columns.
 Run the pipeline:
-
 
 python main.py
 
@@ -110,14 +108,14 @@ Display the trade graph and PnL graph
 
 How It Works
 
-main.py computes indicators (process_data) — EMA(20/50), ATR(14), ADX(14), and the Donchian(20) channel — then walks day-by-day in strat(): for each bar past the 51-bar warmup, it checks the trend filter, strength filter, and breakout trigger, and emits a signal only when all three agree. Once in a position, the chandelier stop is recalculated every bar and can only tighten in the trade's favor, never loosen.
+main.py computes indicators (process_data) EMA(20/50), ATR(14), ADX(14), and the Donchian(20) channel then walks day-by-day in strat(): for each bar past the 51-bar warmup, it checks the trend filter, strength filter, and breakout trigger, and emits a signal only when all three agree. Once in a position, the chandelier stop is recalculated every bar and can only tighten in the trade's favor, never loosen.
 
 backtester.py consumes the resulting signals CSV and simulates execution: opening/closing/reversing positions, applying transaction fees, tracking highs/lows, and computing performance statistics (win rate, Sharpe ratio, drawdown, holding time, etc.) and the capital curve.
 
 Limitations
 
 
-Almost all of the profit is concentrated in 2021 (+$5,744.77) and 2022 (+$2,069.92); the strategy lost money in 2018 (-$233.88) and only made modest gains in 2019–2020 (+$731.50, +$597.60). The reported Sharpe ratio may not generalize to a period without a 2021-style trend.
-With only 23 total trades over 5 years, the sample size is small — individual trades have an outsized effect on the overall statistics.
-The strategy is fundamentally a trend-follower. The ADX filter reduces bad entries in choppy markets, but it doesn't eliminate them, so extended sideways regimes will still hurt performance.
-Maximum drawdown (37.65%) is fairly large relative to net profit — position sizing and risk management are areas for future improvement.
+.Almost all of the profit is concentrated in 2021 (+$5,744.77) and 2022 (+$2,069.92); the strategy lost money in 2018 (-$233.88) and only made modest gains in 2019–2020 (+$731.50, +$597.60). The reported Sharpe ratio may not generalize to a period without a 2021-style trend.
+.With only 23 total trades over 5 years, the sample size is small individual trades have an outsized effect on the overall statistics.
+.The strategy is fundamentally a trend-follower. The ADX filter reduces bad entries in choppy markets, but it doesn't eliminate them, so extended sideways regimes will still hurt performance.
+.Maximum drawdown (37.65%) is fairly large relative to net profit position sizing and risk management are areas for future improvement.
