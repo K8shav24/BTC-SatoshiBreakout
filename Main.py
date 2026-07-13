@@ -161,13 +161,13 @@ def strat(data):
 
 
 def main():
-    data = pd.read_csv("BTC_2019_2023_1d.csv")
+    data = pd.read_csv("btc_2018_22_1d.csv")
     processed_data = process_data(data)
     result_data = strat(processed_data)
     csv_file_path = "final_data.csv"
     result_data.to_csv(csv_file_path, index=False)
 
-    bt = BackTester("BTC", signal_data_path="final_data.csv", master_file_path="final_data.csv", compound_flag=1)
+    bt = BackTester("btc", signal_data_path="final_data.csv", master_file_path="final_data.csv", compound_flag=1)
     bt.get_trades(1000)
 
     for trade in bt.trades:
